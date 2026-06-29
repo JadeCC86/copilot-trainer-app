@@ -2,15 +2,11 @@ import streamlit as st
 from openai import OpenAI
 import os
 
-# Load your API key from env.txt
-with open("env.txt", "r", encoding="utf-8") as f:
-    for line in f:
-        line = line.strip()
-        if "=" in line:
-            key, value = line.split("=", 1)
-            os.environ[key] = value
+# Load your API key.
+import streamlit as st
+from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 SYSTEM_PROMPT = """
 You are my Microsoft 365 & Copilot Trainer Coach.
