@@ -356,6 +356,20 @@ You are coaching {user_name} through this scenario.
 
 Explain step-by-step, addressing {user_name} by name.
 """
+# Sidebar: first name input + welcome header
+st.sidebar.title("Trainer Settings")
+
+first_name = st.sidebar.text_input(
+    "Your first name:",
+    key="sidebar_first_name_input"
+)
+
+if first_name:
+    st.session_state.first_name = first_name
+
+user_name = st.session_state.get("first_name", "friend")
+
+st.sidebar.markdown(f"### 👋 Welcome, {user_name}")
 
 
 
