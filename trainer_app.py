@@ -32,3 +32,20 @@ task = st.text_area("Enter your trainer task:")
 if st.button("Run"):
     reply = ask_agent(task)
     st.markdown(reply)
+st.sidebar.title("Trainer Settings")
+
+mode = st.sidebar.selectbox(
+    "Choose training mode:",
+    ["Beginner", "Intermediate", "Advanced"]
+)
+SYSTEM_PROMPT = f"""
+You are my Microsoft 365 & Copilot Trainer Coach.
+
+Training mode: {mode}
+
+Beginner = gentle, step-by-step guidance.
+Intermediate = practical, structured coaching.
+Advanced = expert-level, fast, technical instruction.
+
+Provide structured, practical training guidance.
+"""
