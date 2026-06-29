@@ -97,6 +97,168 @@ Personality behaviours:
 Adapt your tone, style, and explanations to match the selected personality.
 Always provide structured, practical training guidance.
 """
+import datetime
+
+st.sidebar.subheader("Conversation History")
+
+# Persona colour accents + gradients
+persona_gradients = {
+    "Friendly Coach": "linear-gradient(135deg, #A8E6CF, #4CAF50)",
+    "Strict Instructor": "linear-gradient(135deg, #FFCDD2, #D32F2F)",
+    "Corporate Trainer": "linear-gradient(135deg, #BBDEFB, #1976D2)",
+    "AI Expert": "linear-gradient(135deg, #E1BEE7, #7B1FA2)",
+    "Funny Mentor": "linear-gradient(135deg, #FFE0B2, #FF9800)"
+}
+
+accent_gradient = persona_gradients.get(persona, "linear-gradient(135deg, #D1C4E9, #7b61ff)")
+
+# Inject CSS for premium animated styling
+st.sidebar.markdown(
+    f"""
+    <style>
+        .history-wrapper {{
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 8px;
+            position: relative;
+        }}
+
+        .history-top-fade {{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(to top, transparent, #ffffff);
+            z-index: 2;
+        }}
+
+        .history-bottom-fade {{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, #ffffff);
+            z-index: 2;
+        }}
+
+        .bubble {{
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            border-radius: 14px;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.12);
+            font-size: 13px;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease-in-out;
+        }}
+
+        .bubble-user {{
+            background: #e8f3ff;
+            border-left: 5px solid #1a73e8;
+        }}
+
+        .bubble-assistant {{
+            background: #f4edff;
+            border-left: 5px solid transparent;
+            border-image: {accent_gradient} 1;
+        }}
+
+        .bubble-role {{
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+
+        .avatar {{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+        }}
+
+        .timestamp {{
+            font-size: 11px;
+            color: #777;
+            margin-top: 8px;
+            text-align: right;
+        }}
+
+        @keyframes fadeIn {{
+            from {{ opacity: 0; transform: translateY(4px); }}
+            to {{ opacity: 1; transform: translateY(0); }}
+        }}
+
+        .clear-btn {{
+            background-color: #f8f8f8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }}
+
+        .clear-btn:hover {{
+            background-color: #e6e6e6;
+        }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Scrollable history container
+st.sidebar.markdown('<div class="history-wrapper">', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="history-top-fade"></div>', unsafe_allow_html=True)
+
+if "history" in st.session_state and len(st.session_state.history) > 0:
+    for chat in st.session_state.history:
+        role = chat["role"]
+        content = chat["content"]
+        timestamp = datetime.datetime.now().strftime("%H:%M")
+
+        if role == "user":
+            avatar = "background-image: url('https://i.imgur.com/4ZQZ4ZQ.png');"
+            st.sidebar.markdown(
+                f"""
+                <div class="bubble bubble-user">
+                    <div class="bubble-role">
+                        <div class="avatar" style="{avatar}"></div>
+                        🧑 You
+                    </div>
+                    {content}
+                    <div class="timestamp">{timestamp}</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        else:
+            avatar = "background-image: url('https://i.imgur.com/8Km9tLL.png');"
+            st.sidebar.markdown(
+                f"""
+                <div class="bubble bubble-assistant">
+                    <div class="bubble-role">
+                        <div class="avatar" style="{avatar}"></div>
+                        🤖 Trainer
+                    </div>
+                    {content}
+                    <div class="timestamp">{timestamp}</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+else:
+    st.sidebar.write("No messages yet.")
+
+st.sidebar.markdown('<div class="history-bottom-fade"></div>', unsafe_allow_html=True)
+st.sidebar.markdown('</div>', unsafe_allow_html=True)
+
+# Clear history button
+if st.sidebar.button("🗑️ Clear chat history"):
+    st.session_state.history = []
 
 
 
