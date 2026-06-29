@@ -49,9 +49,5 @@ Advanced = expert-level, fast, technical instruction.
 
 Provide structured, practical training guidance.
 """
-mode = st.sidebar.selectbox(
-    "Choose training mode:",
-    ["Beginner", "Intermediate", "Advanced"],
-    key="training_mode_select"
-)
+
 
