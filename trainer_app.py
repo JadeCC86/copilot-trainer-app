@@ -265,6 +265,4 @@ if first_name:
 user_name = st.session_state.get("first_name", "friend")
 
 
-
-Adapt your tone, style, and explanations to match the selected personality.
    
