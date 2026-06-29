@@ -262,4 +262,60 @@ if st.sidebar.button("🗑️ Clear chat history"):
 first_name = st.sidebar.text_input("Your first name:", key="user_first_name")
 if first_name:
     st.session_state.first_name = first_name
+    st.sidebar.subheader("Copilot Prompt Builder")
+
+goal = st.sidebar.selectbox(
+    "What do you want Copilot to do?",
+    [
+        "Summarise text",
+        "Rewrite text",
+        "Draft an email",
+        "Create a PowerPoint outline",
+        "Analyse a document",
+        "Explain something simply"
+    ],
+    key="prompt_goal"
+)
+
+tone = st.sidebar.selectbox(
+    "Choose tone:",
+    ["Professional", "Friendly", "Direct", "Formal", "Casual"],
+    key="prompt_tone"
+)
+
+output_format = st.sidebar.selectbox(
+    "Output format:",
+    ["Paragraph", "Bullet points", "Step-by-step", "Short summary"],
+    key="prompt_format"
+)
+
+extra_details = st.sidebar.text_area(
+    "Add extra details (optional):",
+    key="prompt_extra"
+)
+
+if st.sidebar.button("Generate Copilot Prompt"):
+    built_prompt = (
+        f"Goal: {goal}\n"
+        f"Tone: {tone}\n"
+        f"Format: {output_format}\n"
+        f"Details: {extra_details if extra_details else 'None'}"
+    )
+
+    st.sidebar.markdown("### Your Copilot Prompt")
+    st.sidebar.code(built_prompt)
+st.sidebar.subheader("Trainer Tips")
+
+tips = [
+    "Use @ to reference files directly in Copilot.",
+    "Ask Copilot to rewrite text in different tones.",
+    "Use Copilot in Teams to summarise meetings instantly.",
+    "Ask Copilot to extract action items from long text.",
+    "Use Copilot in Word to generate outlines before writing.",
+    "Ask Copilot to explain complex topics in simple language."
+]
+
+for tip in tips:
+    st.sidebar.markdown(f"- {tip}")
+
 user_name = st.session_state.get("first_name", "friend")
