@@ -263,6 +263,3 @@ first_name = st.sidebar.text_input("Your first name:", key="user_first_name")
 if first_name:
     st.session_state.first_name = first_name
 user_name = st.session_state.get("first_name", "friend")
-
-
-   
