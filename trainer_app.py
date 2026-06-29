@@ -335,6 +335,33 @@ prompt_library = {
 for label, prompt in prompt_library.items():
     if st.sidebar.button(label):
         st.session_state.history.append({"role": "user", "content": prompt})
+        import datetime
+
+st.sidebar.subheader("✨ Prompt of the Day")
+
+daily_prompts = [
+    "Summarise this text and highlight key decisions and action items.",
+    "Rewrite this message in a professional, concise tone.",
+    "Create a PowerPoint outline with slide titles and bullet points for this topic.",
+    "Extract all action items, deadlines, and responsibilities from the following text.",
+    "Explain this concept in simple language suitable for a beginner.",
+    "Turn these rough notes into a structured summary.",
+    "Analyse this text and provide insights, risks, and recommendations.",
+    "Rewrite this text in a friendly, conversational tone.",
+    "Draft a clear, structured email based on the following details.",
+    "Convert these notes into a step-by-step plan with clear actions."
+]
+
+# Pick prompt based on day of year
+day_index = datetime.datetime.now().timetuple().tm_yday % len(daily_prompts)
+prompt_of_the_day = daily_prompts[day_index]
+
+st.sidebar.markdown(f"**{prompt_of_the_day}**")
+
+# Button to send it into the chat
+if st.sidebar.button("Use Prompt of the Day"):
+    st.session_state.history.append({"role": "user", "content": prompt_of_the_day})
+
 
 
 user_name = st.session_state.get("first_name", "friend")
