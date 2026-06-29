@@ -49,5 +49,27 @@ Advanced = expert-level, fast, technical instruction.
 
 Provide structured, practical training guidance.
 """
+if "history" not in st.session_state:
+    st.session_state.history = []
+for chat in st.session_state.history:
+    with st.chat_message(chat["role"]):
+        st.write(chat["content"])
+user_input = st.chat_input("Ask your trainer...")
+if user_input:
+    st.session_state.history.append({"role": "user", "content": user_input})
+def ask_agent(history):
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}] + history
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=messages
+    )
+
+    return response.choices[0].message.content
+assistant_reply = ask_agent(st.session_state.history)
+st.session_state.history.append({"role": "assistant", "content": assistant_reply})
+with st.chat_message("assistant"):
+    st.write(assistant_reply)
+
 
 
