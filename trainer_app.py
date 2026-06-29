@@ -317,5 +317,24 @@ tips = [
 
 for tip in tips:
     st.sidebar.markdown(f"- {tip}")
+    st.sidebar.subheader("Copilot Prompt Library")
+
+prompt_library = {
+    "Summarise a document": "Summarise the following content and highlight key points, decisions, and action items.",
+    "Rewrite professionally": "Rewrite this text in a professional, concise tone suitable for business communication.",
+    "Rewrite casually": "Rewrite this text in a friendly, conversational tone.",
+    "Draft an email": "Draft a clear, structured email based on the following details.",
+    "Create a PowerPoint outline": "Create a PowerPoint outline with slide titles and bullet points for this topic.",
+    "Extract action items": "Extract all action items, deadlines, and responsibilities from the following text.",
+    "Explain simply": "Explain this topic in simple, beginner-friendly language.",
+    "Analyse text": "Analyse this text and provide insights, risks, opportunities, and recommendations.",
+    "Turn notes into a summary": "Convert these rough notes into a clean, structured summary.",
+    "Turn notes into a plan": "Convert these notes into a step-by-step plan with clear actions."
+}
+
+for label, prompt in prompt_library.items():
+    if st.sidebar.button(label):
+        st.session_state.history.append({"role": "user", "content": prompt})
+
 
 user_name = st.session_state.get("first_name", "friend")
